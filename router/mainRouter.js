@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const db = require('../model/db')
 
 router.get('/',function(req,res){
     res.render('index',{title:"EJS 메인 페이지"})//render로 views폴더안의 indes.ejs를 화면에 띄워주고 그 다음 인자로 데이터를 전송
@@ -7,6 +8,33 @@ router.get('/',function(req,res){
 
 router.get('/about',(req,res)=>{
     res.send('About Page')
+})
+
+router.get('/data/create',function(req,res){
+    let user_id = parseInt(Math.random()*10000)
+    db.users.create({user_id:user_id}).then(function(result){
+        res.send({success:200})
+    })
+})
+
+router.get('/data/read',function(req,res){
+    db.users.findAll().then(function(result){
+        res.send({success:200,data:result})
+    })
+})
+
+router.post('/data/update',function(req,res){
+    let target_id = req.body.target_id
+    db.users.update({user_id:9999},{where:{user_id:target_id}}).then(function(result){
+        res.send({success:200})
+    })
+})
+
+router.post('/data/delete',function(req,res){
+    let target_id = req.body.target_id
+    db.users.destroy({where:{user_id:target_id}}).then(function(result){
+        res.send({success:200})
+    })
 })
 
 router.post('/',function(req,res){
