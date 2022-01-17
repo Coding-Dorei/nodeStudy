@@ -2,8 +2,10 @@ const express = require('express')
 const helmet = require('helmet')
 const app = express()
 const ejs = require('ejs')
+const db = require('./model/db')
 
 const mainRouter = require('./router/mainRouter')
+const codeRouter = require('./router/CodeCRUD')
 
 app.set('view engine', 'ejs')//render로 불러올 파일의 확장자는 ejs
 app.set('views','./views')//view engine이 가져올 resource?들이 위치한 경로
@@ -16,6 +18,9 @@ app.use(express.urlencoded())
 
 app.use('/', mainRouter)
 
+app.use('/',codeRouter)
+
 app.listen(3000, function(){
+    db.connectDB()
     console.log("Server is running on 3000")
 })
