@@ -2,6 +2,7 @@ const express = require('express')
 const helmet = require('helmet')
 const app = express()
 const ejs = require('ejs')
+const db = require('./model/db')
 
 const mainRouter = require('./router/mainRouter')
 
@@ -17,5 +18,6 @@ app.use(express.urlencoded())
 app.use('/', mainRouter)
 
 app.listen(3000, function(){
+    db.connectDB()
     console.log("Server is running on 3000")
 })
