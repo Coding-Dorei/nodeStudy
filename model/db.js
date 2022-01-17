@@ -4,7 +4,7 @@ var Sequelize = require('sequelize')
 
 var sequelize
 
-sequelize = new Sequelize("class101","root","Sjce20011607!",{
+sequelize = new Sequelize("codearchive","root","Sjce20011607!",{
     host:"localhost",
     port:3306,
     dialect:'mysql',
@@ -20,6 +20,7 @@ sequelize = new Sequelize("class101","root","Sjce20011607!",{
 
 var db = {}//export할 객체
 db.users = sequelize.import(__dirname + '/users.js')
+db.codes = sequelize.import(__dirname + '/codes.js')
 
 db.sequelize = sequelize
 db.Sequelize = Sequelize

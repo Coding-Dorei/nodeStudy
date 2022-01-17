@@ -42,5 +42,13 @@ router.post('/',function(req,res){
     console.log(req.body)
 })
 
+router.post('/code/create',function(req,res){
+    let code = req.body.code,
+    author = req.body.author
+    db.codes.create({code:code,author:author}).then(function(result){
+        console.log(result)
+    })
+})
+
 //EXPORT
 module.exports = router
