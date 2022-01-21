@@ -4,16 +4,15 @@ const db = require('../model/db')
 const crypto = require('crypto')
 
 router.get('/',function(req,res){
-    res.render('index',{title:"EJS 메인 페이지"})//render로 views폴더안의 indes.ejs를 화면에 띄워주고 그 다음 인자로 데이터를 전송
+    res.render('index',{title:"CodeArchive"})//render로 views폴더안의 indes.ejs를 화면에 띄워주고 그 다음 인자로 데이터를 전송
 })//ejs파일 안에서 <%= %>사이에 locals.'key'를 통해 접근 가능
 
 router.get('/about',(req,res)=>{
     res.send('About Page')
 })
 
-router.post('/',function(req,res){
-    res.send("Post API")
-    console.log(req.body)
+router.get('/user/register',function(req,res){
+    res.render('register')
 })
 
 router.post('/user/register',function(req,res){
@@ -25,7 +24,7 @@ router.post('/user/register',function(req,res){
     users.find({id:id}).toArray(function(err,docs){
         if(docs.length == 0){
             users.insertOne({id:id,pw:pw,name:name})
-            res.send('Register Success')
+            res.redirect('/')
         }else{
             res.send("<script>alert('이미 존재하는 아이디입니다')</script>")
         }
@@ -41,7 +40,11 @@ router.post('/user/login',function(req,res){
     users.find({id:id}).toArray(function(err,docs){
         if(docs.length > 0){
             if(docs[0].pw == pw){
-                res.send('login Success')
+                req.session.user = {
+                    id:docs[0].id,
+                    name:docs[0].name
+                }
+                res.redirect('/main')
             }else{
                 res.send("Login Failed")
             }
@@ -49,6 +52,14 @@ router.post('/user/login',function(req,res){
             res.send("Login Failed")
         }
     })
+})
+
+router.get('/main',function(req,res){
+    if(req.session.user){
+        res.render('main',{name:req.session.user.name, code:'검색한 코드가 여기에 나타납니다'})
+    }else{
+        res.redirect('/')
+    }
 })
 
 //EXPORT

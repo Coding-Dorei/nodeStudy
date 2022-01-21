@@ -3,6 +3,8 @@ const helmet = require('helmet')
 const app = express()
 const ejs = require('ejs')
 const db = require('./model/db')
+const expressSession = require('express-session')
+const cookieParser = require('cookie-parser')
 
 const mainRouter = require('./router/mainRouter')
 const codeRouter = require('./router/CodeCRUD')
@@ -15,6 +17,13 @@ app.use(helmet())//보안
 
 app.use(express.json())//body를 사용할 수 있게 해줌
 app.use(express.urlencoded())
+
+app.use(cookieParser())
+app.use(expressSession({
+    secret:'2868',
+    resave:true,
+    saveUninitialized:true
+}))
 
 app.use('/', mainRouter)
 
