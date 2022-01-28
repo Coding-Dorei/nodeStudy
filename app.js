@@ -30,6 +30,9 @@ app.use('/', mainRouter)
 app.use('/',codeRouter)
 
 app.listen(3000, function(){
-    db.connectDB()
+    let ts = Date.now();
+    let date_ob = new Date(ts);
+    console.log(date_ob)
+    db.mongoose.connect('mongodb://localhost:27017/CodeArchive')
     console.log("Server is running on 3000")
 })
