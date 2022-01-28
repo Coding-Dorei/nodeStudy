@@ -29,7 +29,9 @@ app.use('/', mainRouter)
 
 app.use('/',codeRouter)
 
-app.listen(3000, function(){
+let ip = '59.6.104.50'
+
+app.listen(3000,ip, function(){
     let ts = Date.now();
     let date_ob = new Date(ts);
     console.log(date_ob)
