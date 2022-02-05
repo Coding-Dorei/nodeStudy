@@ -1,6 +1,21 @@
 const express = require('express')
 const router = express.Router()
 const db = require('../model/db')
+const axios = require('axios')
+const cheerio = require('cheerio')
+const iconv = require('iconv-lite')
+
+router.get('/crawling',function(req,res){
+    var url = req.query.url
+
+    axios({url:url,method:"GET",responseType:"arraybuffer"}).then(function(html){
+        const content = iconv.decode(html.data,"EUC-KR").toString()
+         const $ = cheerio.load(content)
+
+    })
+
+    res.send({success:"success"})
+})
 
 router.get('/',function(req,res){
     res.render('index',{title:"EJS 메인 페이지"})//render로 views폴더안의 indes.ejs를 화면에 띄워주고 그 다음 인자로 데이터를 전송
